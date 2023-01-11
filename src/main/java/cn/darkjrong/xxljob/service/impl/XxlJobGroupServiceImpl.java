@@ -40,9 +40,12 @@ public class XxlJobGroupServiceImpl implements XxlJobGroupService {
     public List<XxlJobGroup> getJobGroup() {
         String url = xxlJobProperties.getAdmin().getAddresses() + UrlEnum.JOB_GROUP_PAGE_LIST.getValue();
 
+        String name = StrUtil.isEmpty(xxlJobProperties.getExecutor().getName())
+                ? xxlJobProperties.getExecutor().getAppName()
+                :xxlJobProperties.getExecutor().getName();
         HttpResponse response = HttpRequest.get(url)
                 .form("appname", xxlJobProperties.getExecutor().getAppName())
-                .form("title", xxlJobProperties.getExecutor().getName())
+                .form("title", name)
                 .cookie(xxlJobLoginService.getCookie())
                 .execute();
 
@@ -64,9 +67,12 @@ public class XxlJobGroupServiceImpl implements XxlJobGroupService {
     public boolean registerGroup() {
         String url = xxlJobProperties.getAdmin().getAddresses() + UrlEnum.JOB_GROUP_SAVE.getValue();
 
+        String name = StrUtil.isEmpty(xxlJobProperties.getExecutor().getName())
+                ? xxlJobProperties.getExecutor().getAppName()
+                :xxlJobProperties.getExecutor().getName();
         HttpRequest httpRequest = HttpRequest.post(url)
                 .form("appname", xxlJobProperties.getExecutor().getAppName())
-                .form("title", xxlJobProperties.getExecutor().getName())
+                .form("title", name)
                 .form("addressType", xxlJobProperties.getExecutor().getAddressType());
 
         if (xxlJobProperties.getExecutor().getAddressType().equals(1)){
