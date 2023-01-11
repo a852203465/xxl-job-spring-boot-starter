@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    cn.darkjrong.spring.boot.autoconfigure.XxlJobAutoConfiguration
