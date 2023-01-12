@@ -27,6 +27,8 @@ xxl:
   job:
     # 必须为true
     enabled: true
+    # 是否开启自动注册
+    autoRegister: true
     accessToken: ""
     admin:
       addresses: http://localhost:8080

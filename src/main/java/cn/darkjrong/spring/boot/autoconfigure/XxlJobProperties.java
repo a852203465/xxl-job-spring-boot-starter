@@ -22,6 +22,11 @@ public class XxlJobProperties {
     private boolean enabled = Boolean.FALSE;
 
     /**
+     *  是否开启自动注册, 默认:false
+     */
+    private boolean autoRegister = Boolean.FALSE;
+
+    /**
      *  执行器通讯TOKEN [选填]：非空时启用；
      */
     private String accessToken;

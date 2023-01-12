@@ -45,7 +45,6 @@ public class XxlJobInfoServiceImpl implements XxlJobInfoService {
                 .cookie(xxlJobLoginService.getCookie())
                 .execute();
 
-        String body = response.body();
         return JSONArray.parseArray(JSON.toJSONString(JSON.parseObject(response.body()).get("data")), XxlJobInfo.class);
     }
 

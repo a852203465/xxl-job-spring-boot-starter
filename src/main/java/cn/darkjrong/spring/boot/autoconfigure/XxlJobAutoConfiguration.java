@@ -23,10 +23,6 @@ public class XxlJobAutoConfiguration {
         this.xxlJobProperties = xxlJobProperties;
     }
 
-//    @Bean
-//    public XxlJobFactoryBean minioFactoryBean() {
-//        return new XxlJobFactoryBean(xxlJobProperties);
-//    }
 
 
 

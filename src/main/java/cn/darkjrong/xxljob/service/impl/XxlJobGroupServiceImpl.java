@@ -65,7 +65,17 @@ public class XxlJobGroupServiceImpl implements XxlJobGroupService {
 
     @Override
     public boolean registerGroup() {
+        if (xxlJobProperties.getExecutor().getAddressType().equals(1)
+                && CollectionUtil.isEmpty(xxlJobProperties.getExecutor().getAddresses())){
+            log.error("In manual input mode, the actuator address list cannot be empty");
+            throw new XxlJobException("手动录入模式下,执行器地址列表不能为空");
+        }
+
         String url = xxlJobProperties.getAdmin().getAddresses() + UrlEnum.JOB_GROUP_SAVE.getValue();
+        XxlJobGroup xxlJobGroup = getJobGroup(xxlJobProperties.getExecutor().getAppName());
+        if (ObjectUtil.isNotNull(xxlJobGroup)) {
+            url =  xxlJobProperties.getAdmin().getAddresses() + UrlEnum.JOB_GROUP_UPDATE.getValue();
+        }
 
         String name = StrUtil.isEmpty(xxlJobProperties.getExecutor().getName())
                 ? xxlJobProperties.getExecutor().getAppName()
@@ -73,17 +83,9 @@ public class XxlJobGroupServiceImpl implements XxlJobGroupService {
         HttpRequest httpRequest = HttpRequest.post(url)
                 .form("appname", xxlJobProperties.getExecutor().getAppName())
                 .form("title", name)
-                .form("addressType", xxlJobProperties.getExecutor().getAddressType());
+                .form("addressType", xxlJobProperties.getExecutor().getAddressType())
+                .form("addressList", CollectionUtil.join(xxlJobProperties.getExecutor().getAddresses(), StrUtil.COMMA));
 
-        if (xxlJobProperties.getExecutor().getAddressType().equals(1)){
-            if (CollectionUtil.isEmpty(xxlJobProperties.getExecutor().getAddresses())){
-                log.error("In manual input mode, the actuator address list cannot be empty");
-                throw new XxlJobException("手动录入模式下,执行器地址列表不能为空");
-            }
-            httpRequest.form("addressList", CollectionUtil.join(xxlJobProperties.getExecutor().getAddresses(), StrUtil.COMMA));
-        }
-
-        XxlJobGroup xxlJobGroup = getJobGroup(xxlJobProperties.getExecutor().getAppName());
         if (ObjectUtil.isNotNull(xxlJobGroup)) {
             httpRequest.form("id", xxlJobGroup.getId());
         }

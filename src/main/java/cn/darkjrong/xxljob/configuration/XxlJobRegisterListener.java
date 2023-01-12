@@ -53,8 +53,10 @@ public class XxlJobRegisterListener implements ApplicationListener<ApplicationRe
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        addJobGroup();
-        addJobInfo();
+        if (xxlJobProperties.isAutoRegister()) {
+            addJobGroup();
+            addJobInfo();
+        }
     }
 
     private void addJobGroup() {
